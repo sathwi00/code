@@ -1,0 +1,222 @@
+
+  /* Define the fade-in animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Apply the animation to the body or a specific container */
+.fade-in {
+    animation: fadeIn 1s ease-out;
+}
+
+.backgorund {
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    min-height: 100vh;
+    background-image: url(https://cdn.pixabay.com/photo/2018/04/14/23/20/triangles-3320452_1280.png);
+    background-size: 100%;
+    text-align: center;
+   
+}
+.welcome-container{
+   background: linear-gradient(135deg,rgba(255,255,255,0.1),rgba(255,255,255,0));
+    margin-top: 100px;
+    text-align: center;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 20px;
+  border:1p solid rgb(255, 225, 225,0.18);
+  box-shadow: 0 8px 32px 0 rgba(0,0,0,0.37);
+}
+.welcome-container h1{
+    font-size: 95px;
+    margin-bottom: 10px;
+
+}
+.welcome-container p{
+    font-size: 20px;
+}
+.welcome-container a {
+    text-decoration: none;   
+    color: hsl(0, 0%, 100%);
+    background: #596996;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1.2em;
+}
+a:hover {
+    background:#6074aa;
+cursor: pointer;
+box-shadow: 0 0 5px #6074aa,
+            0 0 20px #6074aa;
+            color: #000000;
+}
+a {
+    text-decoration: none;   
+    color: #ffffff;
+    background: #596996;
+    padding: 10px 20px; /* Increased padding */
+    border-radius: 50px;
+  /* Increased font size */
+    display: inline-block; /* Allows width/height to take effect */
+    width: 150px; /* Fixed width */
+    height: 30px; /* Fixed height */
+    line-height: 30px; /* Centers text vertically */
+}
+
+.container {
+    width: 50%; /* Increase the width */
+    height: 600px; /* Increase the height */
+    padding: 20px;
+    background: linear-gradient(135deg,rgba(255,255,255,0.1),rgba(255,255,255,0));
+    border:1p solid rgba(255, 255, 255, 0.18);
+    border-radius: 60px; /* Rounded corners */
+    box-shadow: 0 8px 32px 0 rgba(0,0,0,0.37);
+    position: relative; /* Ensure it stays in place */
+    overflow: auto; /* Allow scrolling if content overflows */
+    backdrop-filter: blur(10px); /* Apply a blur effect to the background */
+    -webkit-backdrop-filter: blur(10px); /* For Safari */
+    align-items: center;
+    text-align: center;
+}
+ 
+.task-list {
+    display: flex;
+    flex-direction: column; /* Stack tasks vertically */
+    align-items: center; /* Center tasks horizontally */
+    padding: 0;
+    margin: 1em 0;
+}
+
+.task-item {
+    width: 100%; /* Make items take full width of the list */
+    max-width: 400px; /* Optional: Limit the width for better appearance */
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    text-align: center; /* Center text in each task item */
+    font-size: 1.5em;
+}
+
+input[type="text"] {
+    border: 2px ; /* Green border */
+    border-radius: 40px; /* Rounded corners */
+    padding: 10px; /* Space inside the input */
+    margin: 10px 0; /* Space outside the input */
+    background-color: #ffffff9f; /* Light grey background */
+    color: solid #ffffff; /* Dark text color */
+    font-size: 17px; /* Font size */
+    font-family: 'Arial', sans-serif; /* Font family */
+    align-items: center;
+}
+input[type="text"]:hover{
+    background: transparent;
+    border: 2px solid #ffffff;
+    border-color: #ffffff ;
+    font-size:18px ;
+    cursor: pointer;
+    box-shadow: 0 0 5px #6074aa,
+                0 0 20px #6074aa;
+     color: #000000;
+       
+    
+}
+input[type="text"]::placeholder {
+    color: #000000; /* Placeholder text color */
+    font-style: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Italic style for placeholder text */
+}
+
+
+
+
+
+input[type="time"] {
+    border: 2px ; /* Green border */
+    border-radius: 40px; /* Rounded corners */
+    padding: 10px; /* Space inside the input */
+    margin: 10px 0; /* Space outside the input */
+    background-color: #ffffff9f; /* Light grey background */
+    color: solid #ffffff; /* Dark text color */
+    font-size: 17px; /* Font size */
+    font-family: 'Arial', sans-serif; /* Font family */
+}
+/* For text inputs and textareas */
+input[type="text"]:focus,
+textarea:focus {
+  border-color: #596996; /* Border color when focused */
+  background-color: #f5f1f1; /* Background color when focused */
+  box-shadow: 0 0 5px #6074aa,
+  0 0 20px #6074aa,
+  0 0 60px #6074aa;
+  
+  outline: none; /* Remove default outline */
+  box-shadow: 0 0 5px rgba(74, 144, 226, 0.5); /* Optional: Add shadow effect */
+}
+
+input[type="time"]:hover{
+    background: transparent;
+    border: 2px solid #ffffff;
+    border-color: #ffffff ;
+    font-size:18px ;
+    cursor: pointer;
+    box-shadow: 0 0 5px #6074aa,
+                0 0 20px #6074aa,
+                0 0 60px #6074aa;
+    
+}
+/* The scrollbar itself */
+::-webkit-scrollbar {
+    width: 4px;
+    height: 2px;
+    
+     /* Width of the scrollbar */
+    /* Height of the horizontal scrollbar */
+  }
+  
+  /* The track (part of the scrollbar not filled by the thumb) */
+  ::-webkit-scrollbar-track {
+    background: transparent; /* Track color */
+    border-radius: 10px; /* Round the track */
+  }
+  
+  /* The draggable part of the scrollbar */
+  ::-webkit-scrollbar-thumb {
+    background:transparent; /* Thumb color */
+    border-radius: 20px; /* Round the thumb */
+  }
+  
+  /* On hover, the thumb will change color */
+  ::-webkit-scrollbar-thumb:hover {
+    background: transparent; /* Thumb color on hover */
+  }
+  
+  /* The buttons at the ends of the scrollbar (if any) */
+  ::-webkit-scrollbar-button {
+    background: transparent; /* Button color */
+  }
+  
+  /* The bottom corner where horizontal and vertical scrollbars meet */
+  ::-webkit-scrollbar-corner {
+    background: transparent; /* Corner color */
+  }
+  .pending {
+    color: red; /* Optional: color for pending tasks */
+    font-weight: bold; /* Optional: make it bold */
+    margin-left: 5px; /* Space between task text and alert */
+}
+@font-face {
+  font-family: myfont;
+  src: url(amylight-webfont.eot);
+  
+
+}
+.h1mine{
+  font-family:myfont;
+ 
+}

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Reminder App</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            overflow: hidden;
+            height: 100vh; /* Ensure body takes full height */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url(https://cdn.pixabay.com/photo/2018/04/14/23/20/triangles-3320452_1280.png) no-repeat center center fixed;
+            background-size: cover;
+            align-items: center;
+         
+        }
+    
+
+
+
+        h1 {
+            font-family: 'amylightregular';
+            text-align: center;
+            color: rgb(255, 255, 255);
+            font-size: 4.0em;
+            
+        }
+        h2
+        {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            color: rgb(255, 255, 255);
+            font-size: 1.9em;
+        }
+        .task-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .task-item {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        .task-item.completed {
+            text-decoration: line-through;
+            color: #464444;
+        }
+        .task-item.pending {
+            color: red;
+            font-weight: bold;
+            
+        }
+        
+        button {
+            background-color: #68718a8c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            border-radius: 40px;
+            font-size: 16px;
+        }
+        button:hover{
+            background: #435074;
+            cursor: pointer;
+    box-shadow: 0 0 5px #ffffff,
+                0 0 20px #ffffff;
+             
+        }
+        .hidden {
+            display: none;
+        }
+        .reminder {
+            color: green;
+            font-weight: bold;
+            padding: 10px;
+            border: 1px solid #ddd;
+            margin-top: 10px;
+        }
+        #pending-tasks {
+            margin-top: 20px; /* Add some space above the Pending Tasks section */
+        }
+    </style>
+</head>
+<body>
+    <script src="script.js"></script>
+   
+   
+    <div class="background"></div>
+    <div class="container">
+        <h1>Daily Dairy</h1>
+        <input type="text" id="task-id" placeholder="Enter task ID">
+        <input type="text" id="task-title" placeholder="Enter task title">
+        <input type="time" id="task-time">
+        <button onclick="addTask()">Add Task</button>
+
+        <h2>Tasks</h2>
+        <ul id="task-list" class="task-list"></ul>
+
+        <h2>Manage Tasks</h2>
+        <input type="text" id="manage-id" placeholder="Enter task ID">
+        <button onclick="toggleTaskCompletion()">Toggle Completion</button>
+        <button onclick="deleteTask()">Delete Task</button>
+
+        <h2>Search Task by ID</h2>
+        <input type="text" id="search-id" placeholder="Enter task ID">
+        <button onclick="searchTask()">Search Task</button>
+        <div id="search-result"></div>
+
+        <div id="pending-tasks"></div> <!-- Pending Tasks section moved here -->
+    </div>
+    <div id="reminders"></div>
+    <script>
+        let tasks = [];
+
+        function addTask() {
+            const id = document.getElementById('task-id').value.trim();
+            const title = document.getElementById('task-title').value.trim();
+            const time = document.getElementById('task-time').value;
+
+            if (!id || !title || !time) {
+                alert("Task ID, title, and time cannot be empty.");
+                return;
+            }
+
+            if (tasks.some(task => task.id === id)) {
+                alert("Task ID already exists. Please choose a different ID.");
+                return;
+            }
+
+            const task = { id, title, time, completed: false };
+            tasks.push(task);
+            document.getElementById('task-id').value = '';
+            document.getElementById('task-title').value = '';
+            document.getElementById('task-time').value = '';
+            renderTasks();
+        }
+
+        function toggleTaskCompletion() {
+            const id = document.getElementById('manage-id').value.trim();
+            const task = tasks.find(task => task.id === id);
+            if (task) {
+                task.completed = !task.completed;
+                renderTasks();
+            } else {
+                alert("Task ID not found.");
+            }
+        }
+
+        function deleteTask() {
+            const id = document.getElementById('manage-id').value.trim();
+            tasks = tasks.filter(task => task.id !== id);
+            renderTasks();
+        }
+
+        function searchTask() {
+            const id = document.getElementById('search-id').value.trim();
+            const task = tasks.find(task => task.id === id);
+            const resultDiv = document.getElementById('search-result');
+            if (task) {
+                resultDiv.innerHTML = `ID: ${task.id} | Title: ${task.title} | Time: ${task.time} | Completed: ${task.completed ? 'Yes' : 'No'}`;
+            } else {
+                resultDiv.innerHTML = "Task ID not found.";
+            }
+        }
+
+        function renderTasks() {
+            const taskList = document.getElementById('task-list');
+            taskList.innerHTML = '';
+            tasks.forEach(task => {
+                const taskItem = document.createElement('li');
+                let taskClass = 'task-item';
+
+                if (task.completed) {
+                    taskClass += ' completed';
+                } else if (isTaskPending(task)) {
+                    taskClass += ' pending';
+                }
+
+                taskItem.className = taskClass;
+                taskItem.textContent = `ID: ${task.id} | ${task.title} | Time: ${task.time}`;
+                taskList.appendChild(taskItem);
+            });
+            renderPendingTasks(); // Call to render pending tasks
+        }
+
+        function isTaskPending(task) {
+            const now = new Date();
+            const taskTime = parseTime(task.time);
+            // Task is pending if it's not completed and current time is equal to or past the task time
+            return !task.completed && now >= taskTime && now < taskTime.getTime() +60000 ; // Within 1 minute range
+        }
+
+        function parseTime(timeStr) {
+            const now = new Date();
+            const [hours, minutes] = timeStr.split(':').map(Number);
+            return new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes, 0, 0);
+        }
+
+        function renderPendingTasks() {
+            const pendingTasksDiv = document.getElementById('pending-tasks');
+            const now = new Date();
+            const pendingTasks = tasks.filter(task => isTaskPending(task));
+            
+            if (pendingTasks.length > 0) {
+                pendingTasksDiv.innerHTML = '<h2>Pending Tasks:</h2>';
+                pendingTasks.forEach(task => {
+                    const taskElement = document.createElement('div');
+                    taskElement.textContent = `ID: ${task.id} | Title: ${task.title} | Time: ${task.time}`;
+                    taskElement.className = 'pending';
+                    pendingTasksDiv.appendChild(taskElement);
+                });
+            } else {
+                pendingTasksDiv.innerHTML = '<h2>No Pending Tasks</h2>';
+            }
+        }
+
+        function renderReminders() {
+            const remindersDiv = document.getElementById('reminders');
+            const now = new Date();
+            const dueTasks = tasks.filter(task => {
+                const taskTime = parseTime(task.time);
+                return !task.completed && now >= taskTime && now < taskTime.getTime() + 60000; // Within 1 minute range
+            });
+
+            remindersDiv.innerHTML = ''; // Clear previous reminders
+
+            if (dueTasks.length > 0) {
+                dueTasks.forEach(task => {
+                    const reminderElement = document.createElement('div');
+                    reminderElement.textContent = `Reminder: Time for task "${task.title}" (ID: ${task.id})`;
+                    reminderElement.className = 'reminder';
+                remindersDiv.appendChild(reminderElement);
+            });
+        }
+    }
+
+    function checkReminders() {
+        renderReminders(); // Call to update reminders
+        renderPendingTasks(); // Call to update pending tasks
+    }
+
+    // Check for reminders every minute
+    setInterval(checkReminders, 60000);
+
+    // Initial rendering
+    renderTasks();
+    checkReminders(); // Initial call to check reminders
+    
+</script>
+</body>
+</html>
